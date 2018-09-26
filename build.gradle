@@ -1,0 +1,60 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+
+group = 'com.rules'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+
+}
+configurations {
+	providedRuntime
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-web-services')
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-integration
+compile group: 'org.springframework.boot', name: 'spring-boot-starter-integration', version: '2.0.5.RELEASE'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-integration
+	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-integration', version: '2.0.5.RELEASE'
+	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	// https://mvnrepository.com/artifact/org.kie/kie-ci
+	compile group: 'org.kie', name: 'kie-ci', version: '7.11.0.Final'
+	// https://mvnrepository.com/artifact/org.drools/drools-decisiontables
+compile group: 'org.drools', name: 'drools-decisiontables', version: '7.11.0.Final'
+	// https://mvnrepository.com/artifact/org.drools/drools-core
+compile group: 'org.drools', name: 'drools-core', version: '7.11.0.Final'
+	// https://mvnrepository.com/artifact/org.drools/drools-compiler
+compile group: 'org.drools', name: 'drools-compiler', version: '7.11.0.Final'
+	// https://mvnrepository.com/artifact/org.kie/kie-spring
+compile group: 'org.kie', name: 'kie-spring', version: '7.11.0.Final'
+
+providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')	
+}
+war {
+	from 'war'
+	exclude("**/WEB-INF/web.xml")
+}
